@@ -6,8 +6,8 @@ import 'dotenv/config';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { v2 as cloudinary } from 'cloudinary';
-import { collection, addDoc, updateDoc, doc, deleteDoc, serverTimestamp, setDoc, getDoc } from 'firebase/firestore';
-import { firestore } from '@/firebase/server';
+import { collection, addDoc, updateDoc, doc, deleteDoc, serverTimestamp, setDoc, getDoc, getFirestore } from 'firebase/firestore';
+import { initializeFirebase as initializeServerFirebase } from '@/firebase/server';
 import type { Product, LineItem, OrderStatus, SiteContent, ExploreSection, InSituSection, ImageAsset, AboutPageContent, TeamMember, ProductPageContent, Guarantee, Testimonial } from './types';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -16,6 +16,12 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+// Helper function to get the firestore instance for server actions
+function getDb() {
+  const { firebaseApp } = initializeServerFirebase();
+  return getFirestore(firebaseApp);
+}
 
 const productSchema = z.object({
   name: z.string().min(1, 'Product name is required'),
@@ -86,7 +92,7 @@ export async function createProduct(formData: FormData) {
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
         };
-
+        const firestore = getDb();
         const productsCollection = collection(firestore, 'products');
         await addDoc(productsCollection, newProductData);
 
@@ -116,6 +122,7 @@ export async function updateProduct(formData: FormData) {
   const newImageFiles = formData.getAll('newImages') as File[];
   const existingImagesData = JSON.parse(formData.get('existingImagesData') as string) as ImageAsset[];
 
+  const firestore = getDb();
   const productRef = doc(firestore, 'products', id);
 
   try {
@@ -177,6 +184,7 @@ export async function deleteProduct(productId: string, imagePublicId: string) {
     throw new Error('Product ID is required.');
   }
   
+  const firestore = getDb();
   const productRef = doc(firestore, 'products', productId);
 
   try {
@@ -233,6 +241,7 @@ export async function createOrder(formData: FormData, items: LineItem[], total: 
   };
 
   try {
+    const firestore = getDb();
     const ordersCollection = collection(firestore, 'orders');
     await addDoc(ordersCollection, newOrder);
 
@@ -255,6 +264,7 @@ export async function updateOrderStatus(orderId: string, status: OrderStatus) {
     throw new Error(`Invalid status: ${status}`);
   }
 
+  const firestore = getDb();
   const orderRef = doc(firestore, 'orders', orderId);
 
   try {
@@ -279,6 +289,7 @@ export async function updateHeaderLogo(formData: FormData) {
     throw new Error('No logo files provided.');
   }
   
+  const firestore = getDb();
   const contentRef = doc(firestore, 'site_content', 'homepage');
   
   try {
@@ -318,6 +329,7 @@ export async function updateHeaderLogo(formData: FormData) {
 }
 
 export async function updateAllLogos(formData: FormData) {
+  const firestore = getDb();
   const contentRef = doc(firestore, 'site_content', 'homepage');
   
   try {
@@ -361,6 +373,7 @@ export async function updateHeroImage(currentState: SiteContent, formData: FormD
       throw new Error('No image file provided for hero.');
   }
 
+  const firestore = getDb();
   const contentRef = doc(firestore, 'site_content', 'homepage');
 
   try {
@@ -394,6 +407,7 @@ export async function updateHeroImage(currentState: SiteContent, formData: FormD
 }
 
 export async function updateHomepageImages(currentState: SiteContent, formData: FormData) {
+  const firestore = getDb();
   const contentRef = doc(firestore, 'site_content', 'homepage');
   
   const docSnap = await getDoc(contentRef);
@@ -441,6 +455,7 @@ export async function updateHomepageImages(currentState: SiteContent, formData: 
 }
 
 export async function updateInSituImages(currentState: SiteContent, formData: FormData) {
+  const firestore = getDb();
   const contentRef = doc(firestore, 'site_content', 'homepage');
   
   const docSnap = await getDoc(contentRef);
@@ -489,6 +504,7 @@ export async function updateInSituImages(currentState: SiteContent, formData: Fo
 }
 
 export async function updateAboutUsImages(currentState: AboutPageContent, formData: FormData) {
+  const firestore = getDb();
   const contentRef = doc(firestore, 'site_content', 'about');
   
   const docSnap = await getDoc(contentRef);
@@ -526,6 +542,7 @@ export async function updateAboutUsImages(currentState: AboutPageContent, formDa
 }
 
 export async function updateAboutUsTeam(currentState: AboutPageContent, formData: FormData) {
+  const firestore = getDb();
   const contentRef = doc(firestore, 'site_content', 'about');
   const docSnap = await getDoc(contentRef);
   const currentContent = docSnap.exists() ? docSnap.data() as AboutPageContent : {};
@@ -567,6 +584,7 @@ export async function updateAboutUsTeam(currentState: AboutPageContent, formData
 }
 
 export async function updateProductPageContent(currentState: ProductPageContent, formData: FormData) {
+    const firestore = getDb();
     const contentRef = doc(firestore, 'site_content', 'product_page');
     const docSnap = await getDoc(contentRef);
     const currentContent = docSnap.exists() ? docSnap.data() as ProductPageContent : {};
@@ -602,6 +620,7 @@ export async function updateProductPageContent(currentState: ProductPageContent,
 }
 
 export async function updateProductsPageBanner(currentState: SiteContent, formData: FormData) {
+  const firestore = getDb();
   const contentRef = doc(firestore, 'site_content', 'homepage');
   
   const docSnap = await getDoc(contentRef);

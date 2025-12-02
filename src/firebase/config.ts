@@ -13,7 +13,9 @@ const firebaseConfig: FirebaseOptions = {
 
 // This function is used to get the Firebase config.
 export function getFirebaseConfig() {
-  if (!firebaseConfig.apiKey && process.env.NODE_ENV !== 'production') {
+  // During the build process on the server, env variables might not be available.
+  // This check prevents errors during the build.
+  if (!firebaseConfig.apiKey && process.env.NODE_ENV === 'development') {
     throw new Error('Missing Firebase environment variables. Please check your .env file.');
   }
   return firebaseConfig;

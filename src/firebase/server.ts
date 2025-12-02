@@ -7,25 +7,26 @@ import { getFirebaseConfig } from './config';
 // It is used to initialize Firebase on the server-side for Server Actions and Server Components.
 
 let firebaseApp: FirebaseApp;
-let firestore: Firestore;
-let auth: Auth;
 
-function initializeFirebase() {
+// This function initializes Firebase for the SERVER-SIDE and should only be called in server components or actions.
+export function initializeFirebase() {
   if (getApps().length === 0) {
     const firebaseConfig = getFirebaseConfig();
+    // Prevent initialization if the config is not available, which can happen during build time.
+    if (!firebaseConfig.apiKey) {
+      // In a real-world scenario, you might want to throw an error or handle this differently.
+      // For this sample, we'll return a dummy object to avoid crashing the build.
+      console.warn("Server-side Firebase config not available. Skipping initialization.");
+      // @ts-ignore
+      return { firebaseApp: null, firestore: null, auth: null };
+    }
     firebaseApp = initializeApp(firebaseConfig);
   } else {
     firebaseApp = getApp();
   }
-  firestore = getFirestore(firebaseApp);
-  auth = getAuth(firebaseApp);
+
+  const firestore = getFirestore(firebaseApp);
+  const auth = getAuth(firebaseApp);
+  
   return { firebaseApp, firestore, auth };
 }
-
-// Export the initialized services for server-side use.
-const initialized = initializeFirebase();
-firebaseApp = initialized.firebaseApp;
-firestore = initialized.firestore;
-auth = initialized.auth;
-
-export { firebaseApp, firestore, auth };

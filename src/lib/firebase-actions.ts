@@ -3,11 +3,18 @@
 'use server';
 
 import { collection, doc, getDoc, getDocs, orderBy, query, where, limit, Timestamp } from 'firebase/firestore';
-import { firestore } from '@/firebase/server';
+import { getFirestore } from 'firebase/firestore';
+import { initializeFirebase } from '@/firebase/server';
 import type { Product, Order, Customer, CustomerDetail, SiteContent, AboutPageContent, ProductPageContent } from './types';
 import { cache } from 'react';
 
+// Helper function to get the firestore instance
+function getDb() {
+  return getFirestore(initializeFirebase().firebaseApp);
+}
+
 export async function getProducts(): Promise<Product[]> {
+    const firestore = getDb();
     const productsCollection = collection(firestore, 'products');
     const q = query(productsCollection, orderBy('createdAt', 'desc'));
     const snapshot = await getDocs(q);
@@ -35,6 +42,7 @@ export async function getProducts(): Promise<Product[]> {
 
 export const getProductById = cache(async (id: string): Promise<Product | undefined> => {
     if (!id) return undefined;
+    const firestore = getDb();
     const productDoc = doc(firestore, 'products', id);
     const snapshot = await getDoc(productDoc);
 
@@ -46,6 +54,7 @@ export const getProductById = cache(async (id: string): Promise<Product | undefi
 });
 
 export async function getOrders(options: { limit?: number } = {}): Promise<Order[]> {
+    const firestore = getDb();
     const ordersCollection = collection(firestore, 'orders');
     const constraints = [orderBy('createdAt', 'desc')];
     if (options.limit) {
@@ -61,6 +70,7 @@ export async function getOrders(options: { limit?: number } = {}): Promise<Order
 }
 
 export async function getOrderById(id: string): Promise<Order | undefined> {
+    const firestore = getDb();
     const orderDoc = doc(firestore, 'orders', id);
     const snapshot = await getDoc(orderDoc);
 
@@ -73,6 +83,7 @@ export async function getOrderById(id: string): Promise<Order | undefined> {
 
 
 export async function getOrdersByCustomerEmail(email: string): Promise<Order[]> {
+    const firestore = getDb();
     const ordersCollection = collection(firestore, 'orders');
     // Query only by customerEmail to avoid needing a composite index.
     const q = query(ordersCollection, where('customerEmail', '==', email));
@@ -142,6 +153,7 @@ export async function getCustomerByEmail(email: string): Promise<CustomerDetail 
 }
 
 export const getSiteContent = cache(async (): Promise<SiteContent | null> => {
+    const firestore = getDb();
     const contentDoc = doc(firestore, 'site_content', 'homepage');
     const snapshot = await getDoc(contentDoc);
 
@@ -154,6 +166,7 @@ export const getSiteContent = cache(async (): Promise<SiteContent | null> => {
 });
 
 export const getAboutPageContent = cache(async (): Promise<AboutPageContent | null> => {
+    const firestore = getDb();
     const contentDoc = doc(firestore, 'site_content', 'about');
     const snapshot = await getDoc(contentDoc);
 
@@ -165,6 +178,7 @@ export const getAboutPageContent = cache(async (): Promise<AboutPageContent | nu
 });
 
 export const getProductPageContent = cache(async (): Promise<ProductPageContent | null> => {
+    const firestore = getDb();
     const contentDoc = doc(firestore, 'site_content', 'product_page');
     const snapshot = await getDoc(contentDoc);
 
