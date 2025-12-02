@@ -1,3 +1,4 @@
+
 import { FirebaseOptions } from 'firebase/app';
 
 const firebaseConfig: FirebaseOptions = {
@@ -12,7 +13,7 @@ const firebaseConfig: FirebaseOptions = {
 
 // This function is used to get the Firebase config.
 export function getFirebaseConfig() {
-  if (!firebaseConfig.apiKey) {
+  if (!firebaseConfig.apiKey && process.env.NODE_ENV !== 'production') {
     throw new Error('Missing Firebase environment variables. Please check your .env file.');
   }
   return firebaseConfig;
