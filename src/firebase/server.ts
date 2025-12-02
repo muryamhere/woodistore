@@ -10,7 +10,7 @@ let firebaseApp: FirebaseApp | undefined;
 
 // This function initializes Firebase for the SERVER-SIDE and should only be called in server components or actions.
 export function initializeFirebase() {
-  if (!firebaseApp) {
+  if (getApps().length === 0) {
       const firebaseConfig = getFirebaseConfig();
       // Prevent initialization if the config is not available, which can happen during build time.
       if (!firebaseConfig.apiKey) {
@@ -20,12 +20,9 @@ export function initializeFirebase() {
         // @ts-ignore
         return { firebaseApp: null, firestore: null, auth: null };
       }
-      
-      if (getApps().length === 0) {
-        firebaseApp = initializeApp(firebaseConfig);
-      } else {
-        firebaseApp = getApp();
-      }
+      firebaseApp = initializeApp(firebaseConfig);
+  } else {
+    firebaseApp = getApp();
   }
 
   const firestore = getFirestore(firebaseApp);

@@ -3,7 +3,6 @@
 'use server';
 
 import { collection, doc, getDoc, getDocs, orderBy, query, where, limit, Timestamp } from 'firebase/firestore';
-import { getFirestore } from 'firebase/firestore';
 import { initializeFirebase } from '@/firebase/server';
 import type { Product, Order, Customer, CustomerDetail, SiteContent, AboutPageContent, ProductPageContent } from './types';
 import { cache } from 'react';
