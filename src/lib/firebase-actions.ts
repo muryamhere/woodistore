@@ -29,16 +29,18 @@ export async function getProducts(): Promise<Product[]> {
     // Manually convert Timestamps to plain objects
     return snapshot.docs.map(doc => {
         const data = doc.data();
+        const createdAt = data.createdAt as Timestamp;
+        const updatedAt = data.updatedAt as Timestamp;
         return {
             id: doc.id,
             ...data,
             createdAt: {
-                seconds: data.createdAt.seconds,
-                nanoseconds: data.createdAt.nanoseconds,
+                seconds: createdAt.seconds,
+                nanoseconds: createdAt.nanoseconds,
             },
             updatedAt: {
-                seconds: data.updatedAt.seconds,
-                nanoseconds: data.updatedAt.nanoseconds,
+                seconds: updatedAt.seconds,
+                nanoseconds: updatedAt.nanoseconds,
             },
         } as Product;
     });
@@ -55,16 +57,18 @@ export const getProductById = cache(async (id: string): Promise<Product | undefi
     }
 
     const data = snapshot.data();
+    const createdAt = data.createdAt as Timestamp;
+    const updatedAt = data.updatedAt as Timestamp;
     return { 
         id: snapshot.id, 
         ...data,
         createdAt: {
-            seconds: data.createdAt.seconds,
-            nanoseconds: data.createdAt.nanoseconds,
+            seconds: createdAt.seconds,
+            nanoseconds: createdAt.nanoseconds,
         },
         updatedAt: {
-            seconds: data.updatedAt.seconds,
-            nanoseconds: data.updatedAt.nanoseconds,
+            seconds: updatedAt.seconds,
+            nanoseconds: updatedAt.nanoseconds,
         },
     } as Product;
 });
@@ -110,7 +114,7 @@ export async function getOrdersByCustomerEmail(email: string): Promise<Order[]> 
     const orders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Order));
     
     // Sort the results by date in the code.
-    return orders.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis());
+    return orders.sort((a, b) => (b.createdAt as Timestamp).toMillis() - (a.createdAt as Timestamp).toMillis());
 }
 
 
@@ -128,8 +132,8 @@ export async function getCustomers(): Promise<Customer[]> {
         if (existingCustomer) {
             existingCustomer.totalOrders += 1;
             existingCustomer.totalSpent += order.total;
-            if (order.createdAt > existingCustomer.lastOrdered) {
-                existingCustomer.lastOrdered = order.createdAt;
+            if ((order.createdAt as Timestamp) > existingCustomer.lastOrdered) {
+                existingCustomer.lastOrdered = order.createdAt as Timestamp;
                 existingCustomer.name = order.customerName; // Update name to the latest one
             }
         } else {
@@ -138,12 +142,12 @@ export async function getCustomers(): Promise<Customer[]> {
                 name: order.customerName,
                 totalOrders: 1,
                 totalSpent: order.total,
-                lastOrdered: order.createdAt ?? Timestamp.now(),
+                lastOrdered: (order.createdAt as Timestamp) ?? Timestamp.now(),
             });
         }
     });
 
-    return Array.from(customerMap.values()).sort((a, b) => b.lastOrdered.toMillis() - a.lastOrdered.toMillis());
+    return Array.from(customerMap.values()).sort((a, b) => (b.lastOrdered as Timestamp).toMillis() - (a.lastOrdered as Timestamp).toMillis());
 }
 
 export async function getCustomerByEmail(email: string): Promise<CustomerDetail | undefined> {
@@ -208,4 +212,3 @@ export const getProductPageContent = cache(async (): Promise<ProductPageContent 
     
 
     
-
