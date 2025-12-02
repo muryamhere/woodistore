@@ -10,7 +10,11 @@ import { cache } from 'react';
 
 // Helper function to get the firestore instance
 function getDb() {
-  return getFirestore(initializeFirebase().firebaseApp);
+  const { firestore } = initializeFirebase();
+  if (!firestore) {
+    throw new Error("Firestore is not initialized. Make sure your Firebase environment variables are set.");
+  }
+  return firestore;
 }
 
 export async function getProducts(): Promise<Product[]> {
@@ -50,7 +54,19 @@ export const getProductById = cache(async (id: string): Promise<Product | undefi
         return undefined;
     }
 
-    return { id: snapshot.id, ...snapshot.data() } as Product;
+    const data = snapshot.data();
+    return { 
+        id: snapshot.id, 
+        ...data,
+        createdAt: {
+            seconds: data.createdAt.seconds,
+            nanoseconds: data.createdAt.nanoseconds,
+        },
+        updatedAt: {
+            seconds: data.updatedAt.seconds,
+            nanoseconds: data.updatedAt.nanoseconds,
+        },
+    } as Product;
 });
 
 export async function getOrders(options: { limit?: number } = {}): Promise<Order[]> {
@@ -192,3 +208,4 @@ export const getProductPageContent = cache(async (): Promise<ProductPageContent 
     
 
     
+

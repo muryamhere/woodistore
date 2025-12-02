@@ -19,8 +19,11 @@ cloudinary.config({
 
 // Helper function to get the firestore instance for server actions
 function getDb() {
-  const { firebaseApp } = initializeServerFirebase();
-  return getFirestore(firebaseApp);
+  const { firestore } = initializeServerFirebase();
+  if (!firestore) {
+    throw new Error("Firestore is not initialized. Make sure your Firebase environment variables are set for your deployment.");
+  }
+  return firestore;
 }
 
 const productSchema = z.object({
@@ -616,7 +619,7 @@ export async function updateProductPageContent(currentState: ProductPageContent,
     } catch(error) {
         console.error('Error updating Product Page content:', error);
         throw new Error('Failed to update Product Page content.');
-    }
+  }
 }
 
 export async function updateProductsPageBanner(currentState: SiteContent, formData: FormData) {
