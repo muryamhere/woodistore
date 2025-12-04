@@ -1,6 +1,4 @@
 
-// This is a new file src/app/(shop)/checkout/page.tsx
-
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -18,6 +16,7 @@ import { createOrder } from '@/lib/actions';
 import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { Separator } from '@/components/ui/separator';
+import { useEffect } from 'react';
 
 const checkoutSchema = z.object({
   customerName: z.string().min(2, 'Name is required'),
@@ -43,9 +42,18 @@ export default function CheckoutPage() {
   const {formState: {isSubmitting}} = form;
   const formattedTotal = `Rs. ${cartTotal.toFixed(2)}`;
 
-  if (cartItems.length === 0 && !isSubmitting) {
-    router.replace('/cart');
-    return null;
+  useEffect(() => {
+    if (cartItems.length === 0 && !isSubmitting) {
+      router.replace('/cart');
+    }
+  }, [cartItems, isSubmitting, router]);
+
+  if (cartItems.length === 0) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
   }
   
   const onSubmit = async (data: CheckoutFormValues) => {

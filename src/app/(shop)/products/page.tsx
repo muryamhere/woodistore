@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useEffect, useState, useMemo, useRef } from 'react';
+import { useEffect, useState, useMemo, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ProductCard } from '@/components/product-card';
 import { getProducts, getSiteContent, getProductPageContent } from '@/lib/firebase-actions';
@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
@@ -52,7 +52,7 @@ const DotButton = ({ selected, onClick }: { selected: boolean, onClick: () => vo
   />
 );
 
-export default function ProductsPage() {
+function ProductListContent() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get('category');
   
@@ -404,4 +404,16 @@ export default function ProductsPage() {
       )}
     </div>
   );
+}
+
+export default function ProductsPage() {
+    return (
+        <Suspense fallback={
+            <div className="flex h-[50vh] w-full items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+        }>
+            <ProductListContent />
+        </Suspense>
+    )
 }
