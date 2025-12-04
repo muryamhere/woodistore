@@ -13,15 +13,16 @@ const firebaseConfig: FirebaseOptions = {
 
 // This function is used to get the Firebase config.
 export function getFirebaseConfig() {
-  // During the build process on the server, env variables might not be available.
-  // This check prevents errors during the build.
-  if (!firebaseConfig.apiKey && process.env.NODE_ENV === 'production') {
-    // In production build, we expect the variables to be set in the environment.
-    // Returning an empty object or null could be an option if you have a fallback mechanism.
-    // However, throwing an error during development is better to catch missing configuration early.
-    if(process.env.NODE_ENV === 'development') {
-      throw new Error('Missing Firebase environment variables. Please check your .env file.');
-    }
+  // If we are in the browser (client-side) OR in a build that requires keys,
+  // check if the key exists.
+  if (!firebaseConfig.apiKey) {
+    // If valid keys are missing, throw an error immediately so you know WHY it failed.
+    // Don't swallow the error.
+    throw new Error(
+      `Firebase API Key is missing! 
+       Make sure you have a .env.local file with NEXT_PUBLIC_FIREBASE_API_KEY defined.`
+    );
   }
+
   return firebaseConfig;
 }
