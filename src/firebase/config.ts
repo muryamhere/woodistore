@@ -17,10 +17,16 @@ export function getFirebaseConfig() {
   if (!firebaseConfig.apiKey) {
     // 2. If it's missing, SCREAM about it. Don't fail silently.
     throw new Error(
-      `CRITICAL ERROR: Firebase API Key is missing. 
-       1. Check your .env.local file.
-       2. Ensure variables start with NEXT_PUBLIC_.
-       3. Restart the server.`
+      `CRITICAL ERROR: Your Firebase API Key is missing. This is required for the app to connect to Firebase.
+
+       TROUBLESHOOTING:
+       1. LOCAL: Ensure you have a .env.local file in the root of your project.
+       2. VERCEL: Go to your Project Settings > Environment Variables on Vercel and add all variables starting with 'NEXT_PUBLIC_'.
+       3. All Firebase environment variables *must* be prefixed with 'NEXT_PUBLIC_' to be accessible.
+       
+       Example: NEXT_PUBLIC_FIREBASE_API_KEY=your_key_here
+       
+       After adding the variables, you must redeploy on Vercel or restart your local server.`
     );
   }
   
