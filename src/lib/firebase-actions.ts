@@ -3,18 +3,9 @@
 'use server';
 
 import { collection, doc, getDoc, getDocs, orderBy, query, where, limit, Timestamp } from 'firebase/firestore';
-import { initializeFirebase } from '@/firebase/server';
+import { getDb } from '@/firebase/server';
 import type { Product, Order, Customer, CustomerDetail, SiteContent, AboutPageContent, ProductPageContent } from './types';
 import { cache } from 'react';
-
-// Helper function to get the firestore instance
-function getDb() {
-  const { firestore } = initializeFirebase();
-  if (!firestore) {
-    throw new Error("Firestore is not initialized. Make sure your Firebase environment variables are set.");
-  }
-  return firestore;
-}
 
 export async function getProducts(): Promise<Product[]> {
     const firestore = getDb();
@@ -208,6 +199,3 @@ export const getProductPageContent = cache(async (): Promise<ProductPageContent 
     return snapshot.data() as ProductPageContent;
 });
 
-    
-
-    
