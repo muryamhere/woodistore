@@ -13,16 +13,16 @@ const firebaseConfig: FirebaseOptions = {
 
 // This function is used to get the Firebase config.
 export function getFirebaseConfig() {
-  // If we are in the browser (client-side) OR in a build that requires keys,
-  // check if the key exists.
+  // 1. Validate the critical key exists
   if (!firebaseConfig.apiKey) {
-    // If valid keys are missing, throw an error immediately so you know WHY it failed.
-    // Don't swallow the error.
+    // 2. If it's missing, SCREAM about it. Don't fail silently.
     throw new Error(
-      `Firebase API Key is missing! 
-       Make sure you have a .env.local file with NEXT_PUBLIC_FIREBASE_API_KEY defined.`
+      `CRITICAL ERROR: Firebase API Key is missing. 
+       1. Check your .env.local file.
+       2. Ensure variables start with NEXT_PUBLIC_.
+       3. Restart the server.`
     );
   }
-
+  
   return firebaseConfig;
 }
