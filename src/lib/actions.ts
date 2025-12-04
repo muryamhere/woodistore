@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { v2 as cloudinary } from 'cloudinary';
 import { collection, addDoc, updateDoc, doc, deleteDoc, serverTimestamp, setDoc, getDoc } from 'firebase/firestore';
-import { initializeFirebase as initializeServerFirebase } from '@/firebase/server';
+import { getDb } from '@/firebase/server';
 import type { Product, LineItem, OrderStatus, SiteContent, ExploreSection, InSituSection, ImageAsset, AboutPageContent, TeamMember, ProductPageContent, Guarantee, Testimonial } from './types';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -16,15 +16,6 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-// Helper function to get the firestore instance for server actions
-function getDb() {
-  const { firestore } = initializeServerFirebase();
-  if (!firestore) {
-    throw new Error("Firestore is not initialized. Make sure your Firebase environment variables are set for your deployment.");
-  }
-  return firestore;
-}
 
 const productSchema = z.object({
   name: z.string().min(1, 'Product name is required'),
