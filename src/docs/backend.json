@@ -1,0 +1,459 @@
+
+
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Represents a product in the store.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the product."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the product."
+        },
+        "price": {
+          "type": "number",
+          "description": "The price of the product."
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "alt": {
+                "type": "string"
+              },
+              "hint": {
+                "type": "string"
+              },
+              "isPrimary": {
+                "type": "boolean"
+              }
+            },
+            "required": ["id", "url", "alt", "hint"]
+          }
+        },
+        "category": {
+          "type": "string",
+          "enum": ["Furniture", "Home Decor", "Kitchenware", "Toys"]
+        },
+        "stock": {
+          "type": "number",
+          "description": "The number of items in stock."
+        },
+        "sku": {
+          "type": "string",
+          "description": "The stock keeping unit for the product."
+        },
+        "createdAt": {
+          "type": "object",
+          "description": "The timestamp when the product was created."
+        },
+        "updatedAt": {
+          "type": "object",
+          "description": "The timestamp when the product was last updated."
+        }
+      },
+      "required": ["name", "description", "price", "images", "category", "stock", "createdAt", "updatedAt"]
+    },
+    "LineItem": {
+      "title": "Line Item",
+      "description": "Represents a single item within an order.",
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "number"
+        },
+        "price": {
+          "type": "number"
+        }
+      },
+      "required": ["productId", "productName", "quantity", "price"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Represents a customer's order.",
+      "type": "object",
+      "properties": {
+        "customerName": {
+          "type": "string"
+        },
+        "customerEmail": {
+          "type": "string"
+        },
+        "shippingAddress": {
+          "type": "string"
+        },
+        "trackingNumber": {
+            "type": "string"
+        },
+        "total": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Pending", "Shipped", "Delivered", "Cancelled"]
+        },
+        "createdAt": {
+          "type": "object"
+        },
+        "updatedAt": {
+          "type": "object"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/docs/backend/entities/LineItem"
+          }
+        }
+      },
+      "required": [
+        "customerName",
+        "customerEmail",
+        "total",
+        "status",
+        "createdAt",
+        "updatedAt",
+        "items"
+      ]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Represents a customer of the store, derived from orders.",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "name": {
+          "type": "string"
+        },
+        "totalOrders": {
+          "type": "number"
+        },
+        "totalSpent": {
+          "type": "number"
+        },
+        "lastOrdered": {
+          "type": "object"
+        }
+      },
+      "required": ["email", "name", "totalOrders", "totalSpent", "lastOrdered"]
+    },
+    "AboutPageContent": {
+        "title": "About Page Content",
+        "description": "Content for the About Us page.",
+        "type": "object",
+        "properties": {
+            "heroImage": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "string" },
+                    "url": { "type": "string" },
+                    "alt": { "type": "string" },
+                    "hint": { "type": "string" }
+                }
+            },
+            "philosophyImage": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "string" },
+                    "url": { "type": "string" },
+                    "alt": { "type": "string" },
+                    "hint": { "type": "string" }
+                }
+            },
+            "workshopImage": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "string" },
+                    "url": { "type": "string" },
+                    "alt": { "type": "string" },
+                    "hint": { "type": "string" }
+                }
+            },
+            "team": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": { "type": "string" },
+                        "name": { "type": "string" },
+                        "role": { "type": "string" },
+                        "avatarUrl": { "type": "string" },
+                        "avatarHint": { "type": "string" },
+                        "bio": { "type": "string" }
+                    }
+                }
+            }
+        }
+    },
+    "ProductPageContent": {
+        "title": "Product Page Content",
+        "description": "Content for the product detail page.",
+        "type": "object",
+        "properties": {
+            "promoBannerImage": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "string" },
+                    "url": { "type": "string" },
+                    "alt": { "type": "string" },
+                    "hint": { "type": "string" }
+                }
+            },
+            "guarantees": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "icon": { "type": "string", "enum": ["Truck", "Clock", "Globe", "Recycle"] },
+                        "title": { "type": "string" },
+                        "description": { "type": "string" }
+                    }
+                }
+            },
+            "testimonials": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "quote": { "type": "string" },
+                        "author": { "type": "string" }
+                    }
+                }
+            }
+        }
+    },
+    "SiteContent": {
+      "title": "Site Content",
+      "description": "Stores configuration and content for various parts of the website, like the homepage.",
+      "type": "object",
+      "properties": {
+        "hero": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "subtitle": { "type": "string" },
+            "image": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "url": { "type": "string" },
+                "alt": { "type": "string" },
+                "hint": { "type": "string" },
+                "isPrimary": { "type": "boolean" }
+              },
+              "required": ["id", "url", "alt", "hint"]
+            }
+          }
+        },
+        "headerLogoLight": {
+          "description": "The light version of the logo, for use on dark backgrounds.",
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "url": { "type": "string" },
+            "alt": { "type": "string" },
+            "hint": { "type": "string" }
+          }
+        },
+        "headerLogoDark": {
+          "description": "The dark version of the logo, for use on light backgrounds.",
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "url": { "type": "string" },
+            "alt": { "type": "string" },
+            "hint": { "type": "string" }
+          }
+        },
+        "footerLogoLight": {
+          "description": "The light version of the footer logo.",
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "url": { "type": "string" },
+            "alt": { "type": "string" },
+            "hint": { "type": "string" }
+          }
+        },
+        "footerLogoDark": {
+          "description": "The dark version of the footer logo.",
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "url": { "type": "string" },
+            "alt": { "type": "string" },
+            "hint": { "type": "string" }
+          }
+        },
+        "adminLogoLight": {
+          "description": "The light version of the admin panel logo.",
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "url": { "type": "string" },
+            "alt": { "type": "string" },
+            "hint": { "type": "string" }
+          }
+        },
+        "adminLogoDark": {
+          "description": "The dark version of the admin panel logo.",
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "url": { "type": "string" },
+            "alt": { "type": "string" },
+            "hint": { "type": "string" }
+          }
+        },
+        "exploreSections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "href": { "type": "string" },
+              "image": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "url": { "type": "string" },
+                  "alt": { "type": "string" },
+                  "hint": { "type": "string" },
+                  "isPrimary": { "type": "boolean" }
+                },
+                "required": ["id", "url", "alt", "hint"]
+              }
+            }
+          }
+        },
+        "craftsmanshipSection": {
+          "type": "object",
+          "properties": {
+            "image": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "url": { "type": "string" },
+                "alt": { "type": "string" },
+                "hint": { "type": "string" },
+                "isPrimary": { "type": "boolean" }
+              },
+              "required": ["id", "url", "alt", "hint"]
+            }
+          }
+        },
+        "inSituSection": {
+            "type": "object",
+            "properties": {
+                "background": {
+                    "type": "object",
+                    "properties": {
+                        "id": { "type": "string" },
+                        "url": { "type": "string" },
+                        "alt": { "type": "string" },
+                        "hint": { "type": "string" },
+                        "isPrimary": { "type": "boolean" }
+                    },
+                    "required": ["id", "url", "alt", "hint"]
+                },
+                "spots": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "productId": { "type": "string" },
+                            "title": { "type": "string" },
+                            "price": { "type": "string" },
+                            "image": {
+                                "type": "object",
+                                "properties": {
+                                    "id": { "type": "string" },
+                                    "url": { "type": "string" },
+                                    "alt": { "type": "string" },
+                                    "hint": { "type": "string" },
+                                    "isPrimary": { "type": "boolean" }
+                                },
+                                "required": ["id", "url", "alt", "hint"]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "aboutPage": {
+            "$ref": "#/docs/backend/entities/AboutPageContent"
+        },
+        "productPage": {
+            "$ref": "#/docs/backend/entities/ProductPageContent"
+        },
+        "productsPageBanners": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "string" },
+                    "url": { "type": "string" },
+                    "alt": { "type": "string" },
+                    "hint": { "type": "string" }
+                }
+            }
+        }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["Email and Password"]
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": {
+        "$ref": "#/docs/backend/entities/Product"
+      },
+      "description": "Stores individual product details."
+    },
+    "/orders/{orderId}": {
+      "schema": {
+        "$ref": "#/docs/backend/entities/Order"
+      },
+      "description": "Stores customer orders."
+    },
+    "/site_content/homepage": {
+      "schema": {
+        "$ref": "#/docs/backend/entities/SiteContent"
+      },
+      "description": "Stores site-wide content and settings, like for the homepage."
+    },
+    "/site_content/about": {
+        "schema": {
+            "$ref": "#/docs/backend/entities/AboutPageContent"
+        },
+        "description": "Stores content specifically for the About Us page."
+    },
+    "/site_content/product_page": {
+        "schema": {
+            "$ref": "#/docs/backend/entities/ProductPageContent"
+        },
+        "description": "Stores content for the product detail page."
+    }
+  }
+}
