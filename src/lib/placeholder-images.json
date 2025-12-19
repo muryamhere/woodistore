@@ -1,0 +1,76 @@
+{
+  "placeholderImages": [
+    {
+      "id": "img-chair-1",
+      "description": "A handcrafted wooden chair in a minimalist style.",
+      "imageUrl": "https://images.unsplash.com/photo-1730373451883-45a448eb9bfc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx3b29kZW4lMjBjaGFpcnxlbnwwfHx8fDE3NjM5NzI4MTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wooden chair"
+    },
+    {
+      "id": "img-table-1",
+      "description": "A solid oak dining table with a natural finish.",
+      "imageUrl": "https://images.unsplash.com/photo-1505409628601-edc9af17fda6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxkaW5pbmclMjB0YWJsZXxlbnwwfHx8fDE3NjM5MTU1MzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dining table"
+    },
+    {
+      "id": "img-bowl-1",
+      "description": "A hand-turned wooden bowl, perfect for salads or as a centerpiece.",
+      "imageUrl": "https://images.unsplash.com/photo-1740993383025-4e3aa7e9d7fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx3b29kZW4lMjBib3dsfGVufDB8fHx8MTc2Mzk3NzEzMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wooden bowl"
+    },
+    {
+      "id": "img-lamp-1",
+      "description": "A stylish wooden desk lamp with an adjustable arm.",
+      "imageUrl": "https://images.unsplash.com/photo-1601642964568-1917224f4e4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkZXNrJTIwbGFtcHxlbnwwfHx8fDE3NjM5OTQ2NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "desk lamp"
+    },
+    {
+      "id": "img-shelf-1",
+      "description": "Floating wooden shelves made from reclaimed pine.",
+      "imageUrl": "https://images.unsplash.com/photo-1696952385417-58262e2e7765?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZmxvYXRpbmclMjBzaGVsZnxlbnwwfHx8fDE3NjQwMTE5MTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "floating shelf"
+    },
+    {
+      "id": "img-board-1",
+      "description": "A large walnut cutting board for kitchen prep.",
+      "imageUrl": "https://images.unsplash.com/photo-1617695615794-a5abcece0f48?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y3V0dGluZyUyMGJvYXJkfGVufDB8fHx8MTc2NDAxMTkxMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cutting board"
+    },
+    {
+      "id": "img-toy-1",
+      "description": "A classic wooden toy car, handcrafted and painted.",
+      "imageUrl": "https://images.unsplash.com/photo-1670000515046-9ad35ebb755d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx3b29kZW4lMjB0b3l8ZW58MHx8fHwxNzY0MDExOTEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wooden toy"
+    },
+    {
+      "id": "img-clock-1",
+      "description": "A minimalist wooden wall clock.",
+      "imageUrl": "https://images.unsplash.com/photo-1609980775647-1fb1ef376268?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx3YWxsJTIwY2xvY2t8ZW58MHx8fHwxNzYzOTkxMzk5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wall clock"
+    },
+    {
+      "id": "img-hero-1",
+      "description": "A beautiful hero image of a carpenter's workshop.",
+      "imageUrl": "https://images.unsplash.com/photo-1678184095759-db539ff697a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjYXJwZW50ZXIlMjB3b3Jrc2hvcHxlbnwwfHx8fDE3NjM5MzQxODN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "carpenter workshop"
+    },
+    {
+      "id": "img-chair-2",
+      "description": "A rustic armchair with woven seat.",
+      "imageUrl": "https://images.unsplash.com/photo-1626788570274-9cfa21b90e73?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxydXN0aWMlMjBhcm1jaGFpcnxlbnwwfHx8fDE3NjQwMTE5MTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "rustic armchair"
+    },
+    {
+      "id": "img-utensils-1",
+      "description": "Set of handcrafted wooden kitchen utensils.",
+      "imageUrl": "https://images.unsplash.com/photo-1505165248533-c7d65ff76e21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxraXRjaGVuJTIwdXRlbnNpbHN8ZW58MHx8fHwxNzYzOTg4NTIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "kitchen utensils"
+    },
+    {
+      "id": "img-frame-1",
+      "description": "A simple wooden picture frame.",
+      "imageUrl": "https://images.unsplash.com/photo-1515288207449-100e125abccb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwaWN0dXJlJTIwZnJhbWV8ZW58MHx8fHwxNzY0MDExOTEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "picture frame"
+    }
+  ]
+}
